@@ -1130,6 +1130,7 @@ class VectorQuantize(Module):
 
             quantize, embed_ind, distances = self._codebook(x, **codebook_forward_kwargs)
 
+        quantize = x + (quantize - x).detach()
         if self.training:
             # determine code to use for commitment loss
             maybe_detach = torch.detach if not self.learnable_codebook or freeze_codebook else identity
